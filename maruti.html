@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DriveLife – Rahul's journey (prototype)</title>
+<style>
+:root{--p:#6751c8;--pd:#4a3a9c;--pl:#f1edff;--ink:#1e2430;--mut:#687281;--bg:#faf9f6;--line:#e7e9ed;--navy:#222b3b;--ok:#1d7a4d;--warn:#c97945;--bad:#b3261e}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);font:16px/1.55 "Avenir Next","Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff;padding-bottom:70px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2rem,5vw,3.6rem)}h2{font-size:clamp(1.5rem,3vw,2.2rem)}h3{font-size:1.15rem}
+p{margin:0 0 .8em}a{color:var(--p)}
+:focus-visible{outline:3px solid #a76be0;outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--p);color:#fff;border:0;border-radius:999px;padding:.65em 1.4em;font-weight:600}
+.btn:hover{background:var(--pd)}.btn.ghost{background:transparent;color:var(--p);border:1.5px solid var(--p)}.btn.ghost:hover{background:var(--pl)}
+.btn.sm{padding:.4em 1em;font-size:.88rem}.btn[disabled]{opacity:.5;cursor:not-allowed}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:1rem;padding:.6rem 1.2rem}
+.logo{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:var(--pd)}
+nav.top{display:flex;gap:.2rem;flex:1;overflow-x:auto}
+nav.top button{background:none;border:0;padding:.5em .8em;border-radius:8px;color:var(--ink);white-space:nowrap}
+nav.top button[aria-current=page]{background:var(--pl);color:var(--pd);font-weight:700}
+.hdr-r{display:flex;gap:.5rem;align-items:center;position:relative}
+.ic{background:var(--bg);border:1px solid var(--line);border-radius:50%;width:40px;height:40px;position:relative}
+.dot{position:absolute;top:-4px;right:-4px;background:var(--bad);color:#fff;border-radius:99px;font-size:.7rem;min-width:18px;height:18px;line-height:18px;text-align:center}
+.menu{position:absolute;right:0;top:48px;width:min(340px,92vw);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px #0003;padding:.8rem;display:none}
+.menu.open{display:block}
+.note{display:flex;gap:.6rem;padding:.6rem;border-radius:10px;cursor:pointer;border:0;background:none;text-align:left;width:100%}
+.note:hover{background:var(--bg)}.note.unread{background:var(--pl)}.note b{display:block;font-size:.92rem}.note span{font-size:.82rem;color:var(--mut)}
+main{max-width:1180px;margin:0 auto;padding:0 1.2rem}
+.page{display:none;padding:2rem 0 3rem}.page.active{display:block}
+.hero{width:100vw;margin:0 calc(50% - 50vw);min-height:min(78vh,620px);color:#fff;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:1rem;padding:4rem max(1.4rem,calc((100vw - 1180px)/2 + 1.2rem));border-radius:0;overflow:hidden;background:linear-gradient(90deg,#1a1f2cf2 0%,#1a1f2cb0 42%,#1a1f2c00 78%),url(images/hero.jpg) center/cover no-repeat,linear-gradient(120deg,#222b3b,#4a3a9c 60%,#6751c8)}
+.hero.photo #heroCar{display:none}
+body{overflow-x:hidden}
+.hero p{max-width:34ch;opacity:.9;font-size:1.1rem}.hero svg{width:100%;height:auto}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:-1.6rem 0 2rem;position:relative}
+.quick button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem;text-align:left;font-weight:600;box-shadow:0 6px 20px #0001}
+.quick button:hover{border-color:var(--p)}.quick small{display:block;color:var(--mut);font-weight:400}
+.grid{display:grid;gap:1rem}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.2rem;display:flex;flex-direction:column}
+.card.alert{border-left:6px solid var(--warn);background:#fff8f2}.card.loy{background:var(--pd);color:#fff;border:0}.card.loy .btn{background:#fff;color:var(--pd)}
+.tag{display:inline-block;font-size:.76rem;padding:.15em .6em;border-radius:99px;background:var(--pl);color:var(--pd);margin:0 .3em .4em 0}
+.tag.ok{background:#e0f3e9;color:var(--ok)}.tag.warn{background:#fde8d8;color:var(--warn)}.tag.no{background:#eee;color:var(--mut)}
+.img{background:var(--bg);border-radius:12px;margin-bottom:.8rem;display:grid;place-items:center;padding:.6rem;min-height:130px}.img svg{width:100%;max-height:120px}
+.card .push{margin-top:auto;display:flex;gap:.5rem;flex-wrap:wrap;padding-top:.6rem}
+.sec{margin:2.4rem 0 1rem}.lead{color:var(--mut);max-width:60ch}
+.demo{font-size:.8rem;color:var(--mut);background:var(--bg);border-radius:8px;padding:.5em .8em;margin:1rem 0}
+.stage{display:inline-block;font-size:.72rem;color:var(--p);border:1px solid var(--p);border-radius:99px;padding:0 .6em;margin-bottom:.4rem}
+.tl{border-left:3px solid var(--pl);margin:1rem 0 1rem .6rem;padding-left:1.2rem}.tl div{position:relative;margin-bottom:1rem}.tl div:before{content:"";position:absolute;left:-1.7rem;top:.35rem;width:12px;height:12px;border-radius:50%;background:var(--p)}.tl .due:before{background:var(--warn)}
+.filters{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem}select,input,textarea{font:inherit;padding:.5em .7em;border:1px solid #c9c5d3;border-radius:8px;width:100%;background:#fff}
+.filters select{width:auto}label{font-weight:600;font-size:.9rem;display:block;margin-bottom:.8rem}
+.cartbar{position:sticky;bottom:70px;background:var(--ink);color:#fff;border-radius:14px;padding:.8rem 1.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+dialog{border:0;border-radius:18px;padding:1.6rem;width:min(560px,94vw);box-shadow:0 20px 60px #0006}dialog::backdrop{background:#150a2499}
+.err{color:var(--bad);font-size:.82rem;display:none;font-weight:400}.bad input+.err,.bad select+.err{display:block}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.sw input{width:auto;transform:scale(1.3)}
+.persona{border-top:5px solid var(--p)}.persona.pr{border-top-color:#c0398f}
+.mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:30;justify-content:space-around;padding:.3rem}
+.mobnav button{background:none;border:0;font-size:.7rem;padding:.4rem;color:var(--mut)}.mobnav button[aria-current=page]{color:var(--p);font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:#fff;padding:.7em 1.2em;border-radius:99px;z-index:50;display:none}
+body.out header,body.out main,body.out footer.app,body.out .mobnav{display:none!important}
+body:not(.out) #pub{display:none}
+.img img,.hero img{width:100%;object-fit:cover;border-radius:10px;display:block}.img{padding:0;overflow:hidden}.img img{height:170px}.img svg{padding:.6rem}.hero img{height:auto;max-height:340px;border-radius:18px}
+#pub .bar{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.4rem;border-bottom:1px solid var(--line)}
+#pub .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.2rem;display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center}
+#pub .login{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.6rem;box-shadow:0 14px 40px #0002}
+#pub .cred{background:var(--pl);border-radius:10px;padding:.7em .9em;font-size:.88rem;margin-bottom:1rem}
+#loginErr{color:var(--bad);display:none;margin:.5rem 0}
+@media(max-width:800px){#pub .wrap{grid-template-columns:1fr}}
+
+.mk{display:inline-grid;place-items:center;width:25px;height:25px;margin-right:5px;border-radius:8px 8px 8px 2px;color:#fff;background:var(--p);font:800 .9rem Arial,sans-serif}
+.logo span:last-child{color:var(--p)}
+.hv{min-height:340px;position:relative;border-radius:50% 50% 44% 48%;background:#e5eef1;overflow:hidden}
+.sun{position:absolute;width:115px;height:115px;top:38px;right:70px;border-radius:50%;background:#edcda8}
+.cl{position:absolute;width:90px;height:21px;border-radius:30px;background:#fff;opacity:.75}.cl:before{content:'';position:absolute;width:35px;height:35px;left:15px;bottom:0;border-radius:50%;background:#fff}
+.road{position:absolute;width:120%;height:145px;left:-10%;bottom:-60px;border-radius:50% 50% 0 0;background:#b8c7cb;transform:rotate(-5deg)}
+.cari{position:absolute;width:280px;height:100px;bottom:105px;left:50%;transform:translateX(-50%) rotate(-4deg)}
+.cw{position:absolute;top:0;left:72px;width:108px;height:44px;border-radius:60px 65px 6px 5px;background:#c6e0e2;border:5px solid #466f91;transform:skew(-13deg)}
+.cb{position:absolute;bottom:20px;left:8px;width:265px;height:53px;border-radius:45px 62px 17px 16px;background:#466f91;box-shadow:inset 0 -9px 0 #365b78}
+.wh{position:absolute;bottom:0;width:42px;height:42px;border:9px solid #263a4a;border-radius:50%;background:#a9b5b8;z-index:2}
+#pub h1 em{color:var(--p)}
+footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
+@media(max-width:900px){.g3,.g4,.quick{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr;padding:2rem 1.4rem}nav.top{display:none}.mobnav{display:flex}}
+@media(max-width:560px){.g2,.g3,.g4,.quick{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body class="out">
+<div id="pub">
+ <div class="bar"><span class="logo"><span class="mk">D</span>drive<span>life</span></span><a href="#uid" class="btn sm" style="text-decoration:none">Sign in</a></div>
+ <div class="wrap"><div>
+  <h1>A better journey <em>starts here.</em></h1>
+  <p class="lead">Sign in to see service reminders, accessories, rewards and car suggestions chosen for you and your household.</p>
+  <div class="hv" role="img" aria-label="Illustration of a blue car on a road"><div class="sun"></div><div class="cl" style="top:90px;left:65px"></div><div class="cl" style="top:145px;right:30px;transform:scale(.7)"></div><div class="road"></div><div class="cari"><div class="cw"></div><div class="cb"></div><div class="wh" style="left:45px"></div><div class="wh" style="right:39px"></div></div></div>
+  <div class="grid g3" style="margin-top:1rem"><div><b>Service</b><br><small>Request appointments with your dealership.</small></div><div><b>Rewards</b><br><small>Use loyalty points on service and accessories.</small></div><div><b>Explore</b><br><small>Browse new cars, EV information and True Value.</small></div></div>
+ </div>
+ <form class="login" id="lf" novalidate aria-labelledby="lt">
+  <h2 id="lt">Sign in</h2>
+  <div class="cred"><b>Demo login</b><br>User ID: <code>rahul.sharma</code><br>Password: <code>Drive@2026</code><br><button type="button" class="btn ghost sm" id="fill" style="margin-top:.5rem">Fill demo login</button></div>
+  <label>User ID<input id="uid" autocomplete="username" required></label>
+  <label>Password<input id="pw" type="password" autocomplete="current-password" required></label>
+  <div id="loginErr" role="alert">User ID or password is incorrect. Check the demo details above.</div>
+  <button class="btn" style="width:100%" type="submit">Sign in</button>
+  <p class="demo">Prototype only. Credentials are checked in your browser against sample data; nothing is sent anywhere.</p>
+ </form></div>
+ <p style="text-align:center;color:var(--mut);font-size:.8rem;padding-bottom:2rem">DriveLife is a fictional brand. Not an official Maruti Suzuki website.</p>
+</div>
+<header>
+ <span class="logo"><span class="mk">D</span>drive<span>life</span></span>
+ <nav class="top" id="nav" aria-label="Main"></nav>
+ <div class="hdr-r">
+  <button class="ic" id="bell" aria-label="Notifications" aria-expanded="false">🔔<span class="dot" id="unread"></span></button>
+  <button class="ic" id="prof" aria-label="Profile menu" aria-expanded="false">RS</button>
+  <div class="menu" id="notifMenu" role="region" aria-label="Notifications"></div>
+  <div class="menu" id="profMenu">
+   <p><b>Rahul Sharma</b><br><small>Pune · Gold loyalty · Sample profile</small></p>
+   <button class="btn ghost sm" data-go="household">Switch to household view</button>
+   <button class="btn ghost sm" id="prefOpen">Communication preferences</button> <button class="btn sm" id="logout">Sign out</button>
+  </div>
+ </div>
+</header>
+<main>
+<!-- HOME -->
+<section class="page" id="home">
+ <div class="hero"><div>
+  <p id="today" style="opacity:.8;margin:0 0 .5rem"></p>
+  <h1>Good morning, Rahul. Your next journey starts here.</h1>
+  <p>Take care of your Swift, discover rewards, and find the right vehicle for your next chapter.</p>
+  <button class="btn" style="background:#fff;color:var(--pd)" data-book>Book My Service</button></div>
+  <div id="heroCar"></div></div>
+ <div class="quick">
+  <button data-book>Book My Service<small>Overdue – act now</small></button>
+  <button data-go="accessories">Explore Accessories<small>Picked for roof carriers</small></button>
+  <button data-go="offers">View My Rewards<small>4,200 points</small></button>
+  <button data-go="cars">Explore My Next Car<small>Brezza · Grand Vitara</small></button></div>
+ <div class="grid g3">
+  <div class="card alert"><span class="stage">Why you're seeing this: service status</span><h3>Your Swift needs attention.</h3>
+   <p>Your service is overdue and your warranty expires in <b>28 days</b>. Booking soon keeps your options open.</p>
+   <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="myswift" data-hash="warranty">Warranty information</button></div></div>
+  <div class="card loy"><h3>Gold loyalty</h3><p style="font-size:2.4rem;margin:0;font-family:Georgia">4,200 <small style="font-size:1rem">points</small></p><p>Some rewards may be available for your balance.</p>
+   <div class="push"><button class="btn sm" data-go="offers">Explore eligible rewards</button></div></div>
+  <div class="card"><span class="stage">Why: browsing history</span><h3>Roof carriers for your Swift</h3>
+   <p>Considering your interest in roof carriers, explore compatible accessories for your Swift.</p>
+   <div class="push"><button class="btn sm" data-go="accessories">See accessories</button></div></div>
+ </div>
+ <p class="demo">All profile data, offers and products on this site are mock demonstration data. DriveLife is a fictional brand inspired by an automotive ecosystem; this is not an official Maruti Suzuki website.</p>
+</section>
+
+<!-- MY SWIFT -->
+<section class="page" id="myswift">
+ <h2>My Swift</h2>
+ <div class="grid g2">
+  <div class="card"><div class="img" id="swiftImg"></div>
+   <h3>2019 Swift petrol</h3>
+   <p><span class="tag">≈ 68,000 km</span><span class="tag">MH12 ••• 4821 (masked sample)</span><span class="tag warn">Service overdue</span><span class="tag warn" id="wcount">Warranty: 28 days left</span><span class="tag no">Connected services: sample data</span></p>
+   <div class="push"><button class="btn sm" data-book>Book Service</button><button class="btn ghost sm" data-scroll="hist">View Service History</button><button class="btn ghost sm" data-scroll="warranty">Check Warranty Information</button><button class="btn ghost sm" data-go="accessories">Explore Genuine Accessories</button></div></div>
+  <div class="card" id="warranty"><h3>Warranty information</h3>
+   <p>In this sample, your warranty ends in 28 days. Servicing before then is generally recommended. Terms vary: confirm coverage and eligible protection options with your dealership.</p>
+   <h3 style="margin-top:1rem">Maintenance information</h3>
+   <p>At around 68,000 km, typical checks include engine oil and filter, brake pads, tyres, battery and suspension. Exact needs depend on inspection.</p>
+   <p class="demo">No live connection to your vehicle, telemetry or dealer records exists. Everything shown is sample data.</p></div>
+ </div>
+ <h3 class="sec" id="hist">Service history (sample)</h3>
+ <div class="tl" id="tl"></div>
+</section>
+
+<!-- SERVICE -->
+<section class="page" id="service">
+ <h2>Service &amp; Maintenance</h2><p class="lead">Request an appointment and we'll show you a simulated confirmation.</p>
+ <div class="grid g3" id="svcCards"></div>
+ <div class="card sec" style="margin-top:2rem"><h3>After your service</h3><p>Once a service request is made, related follow-ups — like accessory suggestions or an EV exploration invitation — appear here and in notifications, never at the same time as service reminders.</p>
+  <div class="push"><button class="btn sm" data-go="cars" data-hash="ev">Learn about the EV campaign</button></div></div>
+</section>
+
+<!-- ACCESSORIES -->
+<section class="page" id="accessories">
+ <h2>Accessories &amp; Parts</h2><p class="lead">Shown first: items related to the roof carriers you viewed.</p>
+ <div class="filters"><select id="fCat" aria-label="Category"><option value="">All categories</option><option>Exterior</option><option>Interior</option><option>Parts</option></select>
+  <select id="fComp" aria-label="Compatibility"><option value="">All compatibility</option><option value="swift">Fits Swift (sample)</option><option value="all">Multi-model</option></select></div>
+ <div class="grid g4" id="prodGrid"></div>
+ <div class="cartbar"><span id="cartInfo">Nothing selected yet</span><span><button class="btn ghost sm" style="color:#fff;border-color:#fff" id="cartView">Review selection</button></span></div>
+ <p class="demo">Compatibility labels and prices are demonstration data. No real-time inventory or verified fitment is claimed; confirm with your dealership.</p>
+</section>
+
+<!-- OFFERS -->
+<section class="page" id="offers">
+ <h2>Offers Selected for Rahul</h2>
+ <div class="card loy" style="margin-bottom:1rem;flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+  <div><h3 style="margin:0">Loyalty balance</h3><span style="font-size:2.2rem;font-family:Georgia" id="pts">4,200</span> points</div>
+  <button class="btn sm" id="redeemOpen">Redeem points</button></div>
+ <div class="grid g3" id="offerGrid"></div>
+</section>
+
+<!-- CARS -->
+<section class="page" id="cars">
+ <h2>Explore Cars</h2><p class="lead">Suggestions reflect your Swift ownership and your household's browsing.</p>
+ <div class="grid g3" id="carGrid"></div>
+ <div class="card" id="cmpBox" style="margin-top:1rem;display:none"><h3>Compare vehicles</h3><div id="cmpOut"></div></div>
+</section>
+
+<!-- HOUSEHOLD -->
+<section class="page" id="household">
+ <h2>Our Household Journey</h2><p class="lead">Rahul and Priya keep separate profiles and permissions. Shared insight appears only where both have allowed it.</p>
+ <div class="grid g2">
+  <div class="card persona"><h3>Rahul</h3><ul><li>Swift ownership: service overdue, warranty in 28 days</li><li>Accessories and rewards</li><li>Upgrade exploration: Brezza, Grand Vitara</li></ul>
+   <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="cars">Explore upgrades</button></div></div>
+  <div class="card persona pr"><h3>Priya</h3><ul><li>MSDS (driving school) enrolment information for her daughter</li><li>True Value appraisal interest for a possible second car</li></ul>
+   <p><span class="tag no">No enrolment or appraisal has been completed</span></p>
+   <div class="push"><button class="btn sm" data-info="msds">View MSDS information</button><button class="btn ghost sm" data-info="tv">Explore True Value appraisal</button></div></div>
+ </div>
+ <div class="card" style="margin-top:1rem"><h3>Household benefits</h3>
+  <p>If both of you agree, we could show combined ideas such as a second car appraisal alongside Rahul's upgrade plans.</p>
+  <label class="sw" style="font-weight:400"><span>Rahul allows household suggestions</span><input type="checkbox" id="hhR" checked></label>
+  <label class="sw" style="font-weight:400"><span>Priya allows household suggestions (sample: not yet)</span><input type="checkbox" id="hhP"></label>
+  <div class="push"><button class="btn" id="hhBtn">Explore Household Benefits</button></div><p id="hhOut" style="margin-top:.8rem"></p></div>
+</section>
+
+<!-- HELP -->
+<section class="page" id="help">
+ <h2>Help &amp; Support</h2>
+ <div class="grid g2"><div class="card"><h3>Common questions</h3>
+  <details><summary>How do I book a service?</summary><p>Use “Book My Service” anywhere on the site.</p></details>
+  <details><summary>Is this live data?</summary><p>No. This prototype uses sample data only.</p></details>
+  <details><summary>How are recommendations chosen?</summary><p>Use “Why this offer?” on any offer for the sample signal used.</p></details></div>
+ <div class="card"><h3>Communication preferences</h3><p>Choose how we may contact you.</p><button class="btn sm" id="prefOpen2">Manage preferences</button></div></div>
+</section>
+</main>
+<footer class="app">DriveLife prototype · Mock data only · Not an official Maruti Suzuki website</footer>
+<nav class="mobnav" id="mnav" aria-label="Mobile"></nav>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="dlg" aria-labelledby="dlgT"></dialog>
+
+<script>
+/* ===== MOCK DATA (replace with real services later) ===== */
+const DATA={
+ user:{name:"Rahul",serviceOverdue:true,warrantyDays:28,points:4200,browsed:["roof-carrier"],channels:{push:true,whatsapp:true,email:true}},
+ pages:[["home","Home","🏠"],["myswift","My Swift","🚗"],["service","Service & Maintenance","🔧"],["accessories","Accessories","🧰"],["offers","Offers & Rewards","🎁"],["cars","Explore Cars","🔍"],["household","My Household","👪"],["help","Help & Support","💬"]],
+ history:[["Mar 2024","Second service · 52,000 km","Completed (sample)"],["Feb 2023","First major service · 38,000 km","Completed (sample)"],["Now","Service due · ~68,000 km","Overdue"]],
+ dealers:["DriveLife Kothrud, Pune","DriveLife Hinjewadi, Pune","DriveLife Viman Nagar, Pune"],
+ services:[["Periodic service","Oil, filters, general inspection"],["Brake & tyre check","Pads, discs, alignment"],["Pre-warranty inspection","Check before warranty ends"]],
+ products:[
+  {id:"roof-carrier",name:"Roof carrier",cat:"Exterior",comp:"swift",price:8900,d:"Extra luggage space for trips.",c:"#6a1fb0"},
+  {id:"mats",name:"Floor mats",cat:"Interior",comp:"swift",price:2400,d:"Custom-fit style, easy to clean.",c:"#3b3a46"},
+  {id:"brake",name:"Genuine brake pads",cat:"Parts",comp:"swift",price:3200,d:"Replacement set, fitted at service.",c:"#8a5bc0"},
+  {id:"seat",name:"Interior protection kit",cat:"Interior",comp:"all",price:1800,d:"Seat and console protection.",c:"#c0398f"}],
+ offers:[
+  {id:"o1",t:"Service package offer",x:"Periodic service bundle with inspection.",exp:"31 Oct 2026",elig:"ok",why:"Signal: your service status is overdue."},
+  {id:"o2",t:"Loyalty-point redemption",x:"Use points toward service or accessories.",exp:"No expiry",elig:"ok",why:"Signal: loyalty balance of 4,200 points."},
+  {id:"o3",t:"Accessory promotion",x:"Savings on roof carriers and mats.",exp:"15 Nov 2026",elig:"ok",why:"Signal: you viewed roof carriers."},
+  {id:"o4",t:"Warranty protection options",x:"Extended protection may be available after inspection.",exp:"Before warranty ends",elig:"check",why:"Signal: warranty expires in 28 days. Eligibility depends on inspection."},
+  {id:"o5",t:"EV campaign invitation",x:"Join an exploration journey for electric cars.",exp:"30 Nov 2026",elig:"check",why:"Signal: household interest in new cars. You can opt out anytime."}],
+ cars:[
+  {id:"swift",n:"Swift",t:"Your current model",c:"#6a1fb0",b:"Compact hatchback",tag:"You own this"},
+  {id:"brezza",n:"Brezza",t:"Compact SUV · more space",c:"#2f4d6b",b:"Compact SUV",tag:"Household interest"},
+  {id:"gv",n:"Grand Vitara",t:"Mid-size SUV",c:"#3b3a46",b:"Mid-size SUV",tag:"Household interest"},
+  {id:"ev",n:"EV exploration",t:"A journey to learn about electric driving. No specific vehicle or offer is confirmed.",c:"#1d7a4d",b:"EV campaign",tag:"Campaign"},
+  {id:"tv",n:"True Value used car",t:"Pre-owned cars and appraisal of your own. Separate from new-car exploration.",c:"#b4531a",b:"Used car",tag:"Used cars"}],
+ notes:[
+  {id:1,t:"Service overdue",x:"Your Swift is due for service.",go:"service",u:1},
+  {id:2,t:"Warranty expiry reminder",x:"28 days left in sample warranty.",go:"myswift",u:1},
+  {id:3,t:"Accessory recommendation",x:"Roof carriers for your Swift.",go:"accessories",u:1},
+  {id:4,t:"Rewards update",x:"4,200 points available.",go:"offers",u:0},
+  {id:5,t:"EV campaign invitation",x:"Explore electric driving.",go:"cars",u:1}]
+};
+const S={sel:new Set(),saved:new Set(),cmp:new Set(),pts:DATA.user.points,booked:null};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+/* Inline SVG car art: no external images, so nothing can fail to load or leak data */
+function car(c,suv){return `<svg viewBox="0 0 400 150" role="img" aria-label="Illustration of a ${suv?'SUV':'hatchback'}"><ellipse cx="200" cy="132" rx="170" ry="9" fill="#0002"/><path d="${suv?'M30 110 L40 80 Q50 62 90 58 L150 30 Q200 24 250 30 L305 56 Q350 62 368 84 L372 110Z':'M30 110 L45 82 Q60 66 105 62 L160 32 Q205 26 245 34 L300 62 Q352 68 368 90 L372 110Z'}" fill="${c}"/><path d="M165 38 L225 38 L262 62 L120 62Z" fill="#cfe3f5" opacity=".85"/><circle cx="105" cy="112" r="24" fill="#222"/><circle cx="105" cy="112" r="10" fill="#aaa"/><circle cx="300" cy="112" r="24" fill="#222"/><circle cx="300" cy="112" r="10" fill="#aaa"/></svg>`}
+/* Photo with fallback: looks for images/<key>.jpg next to this file; if missing, shows the illustration instead */
+function pic(key,c,suv,alt){const fb=encodeURIComponent(car(c,suv));return `<img src="images/${key}.jpg" alt="${alt||key}" loading="lazy" data-fb="${fb}" onerror="fbImg(this)">`}
+function fbImg(i){const d=document.createElement('div');d.innerHTML=decodeURIComponent(i.dataset.fb);i.replaceWith(d.firstChild)}
+function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2600)}
+
+/* ===== Navigation ===== */
+function go(id,hash){
+ $$(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+ $$("[data-nav]").forEach(b=>b.toggleAttribute("aria-current",false)||b.dataset.nav===id&&b.setAttribute("aria-current","page"));
+ $$("[data-nav]").forEach(b=>{if(b.dataset.nav!==id)b.removeAttribute("aria-current")});
+ closeMenus();window.scrollTo(0,0);
+ if(hash)setTimeout(()=>document.getElementById(hash)?.scrollIntoView({behavior:"smooth"}),50);
+}
+function closeMenus(){$$(".menu").forEach(m=>m.classList.remove("open"));$("#bell").setAttribute("aria-expanded","false");$("#prof").setAttribute("aria-expanded","false")}
+function buildNav(){
+ $("#nav").innerHTML=DATA.pages.map(p=>`<button data-nav="${p[0]}">${p[1]}</button>`).join("");
+ $("#mnav").innerHTML=[0,1,3,4,6].map(i=>`<button data-nav="${DATA.pages[i][0]}">${DATA.pages[i][2]}<br>${DATA.pages[i][1].split(" ")[0]}</button>`).join("")+`<button id="moreBtn">☰<br>More</button>`;
+}
+
+/* ===== Personalization logic (mock) =====
+ Accessories: items matching browsing history rank first.
+ Service card: shown as an alert only when serviceOverdue is true.
+ Offers: eligibility is "ok" only where a sample signal supports it; others say "check". */
+function renderProducts(){
+ const cat=$("#fCat").value,comp=$("#fComp").value;
+ const list=DATA.products.filter(p=>(!cat||p.cat===cat)&&(!comp||p.comp===comp))
+  .sort((a,b)=>DATA.user.browsed.includes(b.id)-DATA.user.browsed.includes(a.id));
+ $("#prodGrid").innerHTML=list.length?list.map(p=>`<div class="card"><div class="img">${pic(p.id,p.c,false,p.name)}</div>
+  ${DATA.user.browsed.includes(p.id)?'<span class="tag">Picked from your browsing</span>':''}
+  <h3>${p.name}</h3><p>${p.d}</p><p><span class="tag ${p.comp==='swift'?'ok':''}">${p.comp==='swift'?'Swift: sample compatibility':'Multi-model (sample)'}</span><span class="tag no">Demo data</span></p>
+  <b>${inr(p.price)}</b><div class="push"><button class="btn sm" data-sel="${p.id}" aria-pressed="${S.sel.has(p.id)}">${S.sel.has(p.id)?'Selected ✓':'Add to selection'}</button><button class="btn ghost sm" data-save="${p.id}">${S.saved.has(p.id)?'Saved ♥':'Save'}</button></div></div>`).join(""):"<p>No items match these filters. Try clearing a filter.</p>";
+ const n=S.sel.size,tot=[...S.sel].reduce((s,id)=>s+DATA.products.find(p=>p.id===id).price,0);
+ $("#cartInfo").textContent=n?`${n} item(s) selected · ${inr(tot)}`:"Nothing selected yet";
+}
+function renderOffers(){
+ $("#offerGrid").innerHTML=DATA.offers.map(o=>`<div class="card"><span class="tag ${o.elig==='ok'?'ok':'warn'}">${o.elig==='ok'?'Eligible (sample)':'Eligibility to be confirmed'}</span><h3>${o.t}</h3><p>${o.x}</p><small>Expires: ${o.exp}</small>
+ <div class="push"><button class="btn sm" data-offer="${o.id}">${o.id==='o1'?'Book with offer':o.id==='o2'?'Redeem points':o.id==='o3'?'Shop accessories':o.id==='o4'?'Ask about protection':'Join EV journey'}</button><button class="btn ghost sm" data-why="${o.id}">Why this offer?</button></div></div>`).join("");
+ $("#pts").textContent=S.pts.toLocaleString("en-IN");
+}
+function renderCars(){
+ $("#carGrid").innerHTML=DATA.cars.map(c=>`<div class="card" id="${c.id==='ev'?'ev':''}"><div class="img">${pic(c.id,c.c,c.id!=='swift',c.n)}</div><span class="tag">${c.tag}</span><h3>${c.n}</h3><p>${c.t}</p>
+ <div class="push"><button class="btn sm" data-explore="${c.id}">Explore Vehicle</button><button class="btn ghost sm" data-cmp="${c.id}">${S.cmp.has(c.id)?'In compare ✓':'Compare'}</button><button class="btn ghost sm" data-savecar="${c.id}">${S.saved.has(c.id)?'Saved ♥':'Save Vehicle'}</button>${['brezza','gv','swift'].includes(c.id)?`<button class="btn ghost sm" data-drive="${c.id}">Book a Test Drive</button>`:''}</div></div>`).join("");
+ const box=$("#cmpBox");box.style.display=S.cmp.size?"block":"none";
+ $("#cmpOut").innerHTML=S.cmp.size<2?"<p>Choose at least two vehicles to compare.</p>":`<div class="grid g${Math.min(S.cmp.size,3)}">`+[...S.cmp].map(id=>{const c=DATA.cars.find(x=>x.id===id);return `<div><b>${c.n}</b><br>Type: ${c.b}<br>${c.tag}<br><small>Specs: demo only</small></div>`}).join("")+"</div>";
+}
+function renderNotes(){
+ const u=DATA.notes.filter(n=>n.u).length;const d=$("#unread");d.textContent=u;d.style.display=u?"block":"none";
+ $("#notifMenu").innerHTML=`<b>Notifications</b>`+DATA.notes.map(n=>`<button class="note ${n.u?'unread':''}" data-note="${n.id}"><div><b>${n.t}</b><span>${n.x}</span></div></button>`).join("")+`<button class="btn ghost sm" id="markAll">Mark all read</button>`;
+}
+
+/* ===== Dialogs ===== */
+const dlg=$("#dlg");
+function open(html){dlg.innerHTML=html+`<form method="dialog" style="margin-top:1rem"><button class="btn ghost sm">Close</button></form>`;if(!dlg.open)dlg.showModal();}
+function bookingForm(pre){
+ const tomorrow=new Date(Date.now()+864e5).toISOString().slice(0,10);
+ open(`<h2 id="dlgT">Book a service</h2><p class="demo">Simulated booking. No real appointment will be created.</p>
+ <form id="bf" novalidate>
+ <label>Vehicle<select name="veh" required><option value="">Select…</option><option>2019 Swift petrol (MH12 ••• 4821)</option></select><span class="err">Select a vehicle.</span></label>
+ <label>Service type<select name="type" required><option value="">Select…</option>${DATA.services.map(s=>`<option>${s[0]}</option>`).join("")}</select><span class="err">Select a service type.</span></label>
+ <label>Preferred dealership<select name="dl" required><option value="">Select…</option>${DATA.dealers.map(d=>`<option>${d}</option>`).join("")}</select><span class="err">Select a dealership.</span></label>
+ <label>Preferred date<input type="date" name="date" min="${tomorrow}" required><span class="err">Choose a future date.</span></label>
+ <label>Preferred time<select name="time" required><option value="">Select…</option><option>9:00 AM</option><option>11:00 AM</option><option>2:00 PM</option><option>4:00 PM</option></select><span class="err">Select a time.</span></label>
+ <label>Comments (optional)<textarea name="cm" rows="2"></textarea></label>
+ <button class="btn" type="submit">Request appointment</button></form>`);
+ const f=$("#bf");
+ if(pre)f.type.value=pre;
+ f.addEventListener("submit",e=>{e.preventDefault();let ok=true;
+  $$("[required]",f).forEach(el=>{const bad=!el.value||(el.type==="date"&&el.value<tomorrow);el.parentElement.classList.toggle("bad",bad);if(bad&&ok){el.focus();ok=false}});
+  if(!ok)return;
+  const ref="SIM-"+Math.floor(100000+Math.random()*899999);S.booked=ref;
+  open(`<h2 id="dlgT">Request received ✓</h2><p class="demo">This is a simulated booking. No real dealership appointment has been created.</p>
+  <p><b>Reference:</b> ${ref}</p><p>${f.veh.value}<br>${f.type.value}<br>${f.dl.value}<br>${f.date.value} at ${f.time.value}${f.cm.value?'<br>Note: '+f.cm.value.replace(/</g,'&lt;'):''}</p>
+  <p>Next, you might like to explore <a href="#" data-go="accessories">accessories</a> or the <a href="#" data-go="cars" data-hash="ev">EV exploration journey</a>. We'll hold EV messages until after your service reminder cycle.</p>`);
+  DATA.notes[0].u=0;renderNotes();
+ });
+}
+function prefs(){
+ const c=DATA.user.channels;
+ open(`<h2 id="dlgT">Communication preferences</h2><p class="demo">Sample preferences. No real messages are sent.</p>
+ ${[["push","Push notifications"],["whatsapp","WhatsApp"],["email","Email"]].map(([k,l])=>`<label class="sw" style="font-weight:400"><span>${l}</span><input type="checkbox" data-ch="${k}" ${c[k]?'checked':''}></label>`).join("")}
+ <label class="sw" style="font-weight:400"><span>SMS (not enabled; we won't use it)</span><input type="checkbox" disabled></label>
+ <p style="margin-top:.8rem"><small>We only use channels you allow, and avoid sending conflicting messages about the same topic (for example, a service reminder and an EV invitation) at once.</small></p>`);
+}
+
+/* ===== Events ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("button,a,[data-go]");if(!t){if(!e.target.closest(".menu"))closeMenus();return}
+ const d=t.dataset;
+ if(d.go){e.preventDefault();if(dlg.open)dlg.close();go(d.go,d.hash)}
+ else if(d.nav)go(d.nav);
+ else if(t.hasAttribute("data-book"))bookingForm();
+ else if(d.scroll)document.getElementById(d.scroll).scrollIntoView({behavior:"smooth"});
+ else if(d.sel){S.sel.has(d.sel)?S.sel.delete(d.sel):S.sel.add(d.sel);renderProducts()}
+ else if(d.save){S.saved.has(d.save)?S.saved.delete(d.save):S.saved.add(d.save);renderProducts();toast("Saved items updated")}
+ else if(d.savecar){S.saved.has(d.savecar)?S.saved.delete(d.savecar):S.saved.add(d.savecar);renderCars();toast("Saved vehicles updated")}
+ else if(d.cmp){S.cmp.has(d.cmp)?S.cmp.delete(d.cmp):S.cmp.size<3?S.cmp.add(d.cmp):toast("Compare up to 3 vehicles");renderCars()}
+ else if(d.explore){const c=DATA.cars.find(x=>x.id===d.explore);open(`<h2 id="dlgT">${c.n}</h2><div class="img">${pic(c.id,c.c,c.id!=='swift',c.n)}</div><p>${c.t}</p><p class="demo">Demo content. ${c.id==='ev'?'This is an exploration journey, not a confirmed vehicle or offer.':c.id==='tv'?'Used-car appraisal is separate from new-car purchase.':'Specifications and pricing are not shown in this prototype.'}</p>`)}
+ else if(d.drive){const c=DATA.cars.find(x=>x.id===d.drive);open(`<h2 id="dlgT">Test drive request</h2><p>Simulated request for the ${c.n}. No test drive is booked in this prototype.</p><button class="btn" onclick="toast('Test drive request noted (simulated)');dlg.close()">Send request</button>`)}
+ else if(d.why){const o=DATA.offers.find(x=>x.id===d.why);open(`<h2 id="dlgT">Why this offer?</h2><p><b>${o.t}</b></p><p>${o.why}</p><p class="demo">Sample signal. You can change what we use in communication preferences.</p>`)}
+ else if(d.offer){
+  if(d.offer==="o1")bookingForm("Periodic service");
+  else if(d.offer==="o2")redeem();
+  else if(d.offer==="o3")go("accessories");
+  else if(d.offer==="o4")open(`<h2 id="dlgT">Protection options</h2><p>Eligibility is confirmed by your dealership after an inspection. Book a pre-warranty inspection to find out.</p><button class="btn" data-book>Book inspection</button>`);
+  else open(`<h2 id="dlgT">EV exploration</h2><p>You're interested in learning about EVs? We'll share information using your allowed channels only.</p><button class="btn" onclick="toast('Interest noted (simulated)');dlg.close()">Notify me</button>`)}
+ else if(d.info==="msds")open(`<h2 id="dlgT">MSDS information</h2><p>Learn about driving-school enrolment for your daughter. This is information only: no enrolment has been made.</p><p class="demo">Sample content.</p>`);
+ else if(d.info==="tv")open(`<h2 id="dlgT">True Value appraisal</h2><p>An appraisal estimates the value of a car you own. No appraisal has been requested or completed. This is separate from buying a new car.</p><p class="demo">Sample content.</p>`);
+ else if(d.note){const n=DATA.notes.find(x=>x.id==d.note);n.u=0;renderNotes();go(n.go)}
+ else if(t.id==="markAll"){DATA.notes.forEach(n=>n.u=0);renderNotes();$("#notifMenu").classList.add("open")}
+ else if(t.id==="bell"||t.closest("#bell")){const m=$("#notifMenu"),o=!m.classList.contains("open");closeMenus();m.classList.toggle("open",o);$("#bell").setAttribute("aria-expanded",o)}
+ else if(t.id==="prof"){const m=$("#profMenu"),o=!m.classList.contains("open");closeMenus();m.classList.toggle("open",o);$("#prof").setAttribute("aria-expanded",o)}
+ else if(["prefOpen","prefOpen2"].includes(t.id)){closeMenus();prefs()}
+ else if(t.id==="moreBtn")open(`<h2 id="dlgT">More</h2><div class="grid">${[1,2,5,7].map(i=>`<button class="btn ghost" data-go="${DATA.pages[i][0]}">${DATA.pages[i][1]}</button>`).join("")}<button class="btn ghost" id="prefOpen2">Communication preferences</button><button class="btn ghost" id="bell">Notifications</button></div>`);
+ else if(t.id==="cartView"){
+  const items=[...S.sel].map(id=>DATA.products.find(p=>p.id===id));
+  open(`<h2 id="dlgT">Your selection</h2>${items.length?items.map(p=>`<p>${p.name} · ${inr(p.price)}</p>`).join("")+`<p><b>Total: ${inr(items.reduce((s,p)=>s+p.price,0))}</b></p><button class="btn" onclick="toast('Simulated: no order placed');dlg.close()">Request quote</button>`:"<p>Nothing selected yet. Add items from the accessories list.</p>"}<p class="demo">Simulated cart. No order is placed.</p>`)}
+ else if(t.id==="redeemOpen")redeem();
+ else if(t.id==="hhBtn"){const r=$("#hhR").checked,p=$("#hhP").checked;
+  $("#hhOut").textContent=r&&p?"Household suggestion (sample): consider a True Value appraisal for the second car while exploring Rahul's upgrade options.":"Household suggestions stay off until both people allow them. Each profile continues to see only its own recommendations."}
+});
+function redeem(){
+ open(`<h2 id="dlgT">Redeem points</h2><p>Balance: <b>${S.pts.toLocaleString("en-IN")}</b> points</p>
+ <label>Choose a reward<select id="rw"><option value="1500">Service discount (1,500 pts)</option><option value="1000">Accessory voucher (1,000 pts)</option><option value="5000">Premium reward (5,000 pts)</option></select></label>
+ <button class="btn" id="rwGo">Redeem (simulated)</button><p id="rwMsg" role="status"></p>`);
+ $("#rwGo").onclick=()=>{const c=+$("#rw").value;if(c>S.pts){$("#rwMsg").textContent="Not enough points for this reward. Choose another.";return}
+  S.pts-=c;renderOffers();$("#rwMsg").textContent=`Done (simulated). ${c} points used; ${S.pts.toLocaleString("en-IN")} remain.`}
+}
+document.addEventListener("change",e=>{
+ if(e.target.id==="fCat"||e.target.id==="fComp")renderProducts();
+ if(e.target.dataset.ch){DATA.user.channels[e.target.dataset.ch]=e.target.checked;toast("Preference updated (sample)")}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenus()});
+
+/* ===== Init ===== */
+buildNav();
+$("#heroCar").innerHTML=car("#c9a6f0",false);
+/* Full-width hero uses images/hero.jpg as background; if missing, the illustration is shown instead */
+{const t=new Image();t.onload=()=>$(".hero").classList.add("photo");t.src="images/hero.jpg"}$("#swiftImg").innerHTML=pic("swift","#6a1fb0",false,"Swift");
+$("#tl").innerHTML=DATA.history.map((h,i)=>`<div class="${i==2?'due':''}"><b>${h[0]}</b> · ${h[1]}<br><small>${h[2]}</small></div>`).join("");
+$("#svcCards").innerHTML=DATA.services.map(s=>`<div class="card"><h3>${s[0]}</h3><p>${s[1]}</p><div class="push"><button class="btn sm" data-book>Book</button></div></div>`).join("");
+renderProducts();renderOffers();renderCars();renderNotes();
+/* Mock auth: demo credentials only. Replace with real SSO/identity service later. */
+const CRED={id:"rahul.sharma",pw:"Drive@2026"};
+$("#fill").onclick=()=>{$("#uid").value=CRED.id;$("#pw").value=CRED.pw;$("#pw").focus()};
+$("#lf").addEventListener("submit",e=>{e.preventDefault();
+ if($("#uid").value.trim().toLowerCase()===CRED.id&&$("#pw").value===CRED.pw){$("#loginErr").style.display="none";document.body.classList.remove("out");go("home");toast("Welcome back, Rahul")}
+ else{$("#loginErr").style.display="block";$("#pw").focus()}});
+document.addEventListener("click",e=>{if(e.target.id==="logout"){closeMenus();document.body.classList.add("out");$("#pw").value="";window.scrollTo(0,0)}});
+$("#today").textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+go("home");
+</script></body></html>
