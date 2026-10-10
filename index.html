@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
+<script>/* Adobe Client Data Layer: initialise before the Data Collection (Launch) library and before any push */window.adobeDataLayer=window.adobeDataLayer||[];</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DriveLife – Rahul's journey (prototype)</title>
 <style>
@@ -63,7 +64,8 @@ body:not(.out) #pub{display:none}
 #pub .bar{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.4rem;border-bottom:1px solid var(--line)}
 #pub .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.2rem;display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center}
 #pub .login{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.6rem;box-shadow:0 14px 40px #0002}
-#pub .cred{background:var(--pl);border-radius:10px;padding:.7em .9em;font-size:.88rem;margin-bottom:1rem}
+#pub body[data-persona=Priya] .rahul-only,body[data-persona=Priya] [data-nav=myswift],body[data-persona=Priya] [data-nav=service],body[data-persona=Priya] [data-nav=offers],body[data-persona=Priya] .rahul-card{display:none!important}
+.cred{background:var(--pl);border-radius:10px;padding:.7em .9em;font-size:.88rem;margin-bottom:1rem}
 #loginErr{color:var(--bad);display:none;margin:.5rem 0}
 @media(max-width:800px){#pub .wrap{grid-template-columns:1fr}}
 
@@ -82,7 +84,9 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 @media(max-width:900px){.g3,.g4,.quick{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr;padding:2rem 1.4rem}nav.top{display:none}.mobnav{display:flex}}
 @media(max-width:560px){.g2,.g3,.g4,.quick{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-</style></head><body class="out">
+</style><!-- Adobe Data Collection (Launch): loads after adobeDataLayer is initialised above -->
+<script src="https://assets.adobedtm.com/e72b4113c11a/76df574c3423/launch-03a6ecf3757b-development.min.js" async></script>
+</head><body class="out">
 <div id="pub">
  <div class="bar"><span class="logo"><span class="mk">D</span>drive<span>life</span></span><a href="#uid" class="btn sm" style="text-decoration:none">Sign in</a></div>
  <div class="wrap"><div>
@@ -93,7 +97,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
  </div>
  <form class="login" id="lf" novalidate aria-labelledby="lt">
   <h2 id="lt">Sign in</h2>
-  <div class="cred"><b>Demo login</b><br>User ID: <code>rahul.sharma</code><br>Password: <code>Drive@2026</code><br><button type="button" class="btn ghost sm" id="fill" style="margin-top:.5rem">Fill demo login</button></div>
+  <div class="cred"><b>Demo login</b><br>User ID: <code>rahul.sharma</code><br>Password: <code>Drive@2026</code><br><br>Second user: <code>priya.sharma</code> / <code>Drive@2026</code><br><button type="button" class="btn ghost sm" id="fill" style="margin-top:.5rem">Fill Rahul</button> <button type="button" class="btn ghost sm" id="fillP" style="margin-top:.5rem">Fill Priya</button></div>
   <label>User ID<input id="uid" autocomplete="username" required></label>
   <label>Password<input id="pw" type="password" autocomplete="current-password" required></label>
   <div id="loginErr" role="alert">User ID or password is incorrect. Check the demo details above.</div>
@@ -110,7 +114,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
   <button class="ic" id="prof" aria-label="Profile menu" aria-expanded="false">RS</button>
   <div class="menu" id="notifMenu" role="region" aria-label="Notifications"></div>
   <div class="menu" id="profMenu">
-   <p><b>Rahul Sharma</b><br><small>Pune · Gold loyalty · Sample profile</small></p>
+   <p id="pmName"><b>Rahul Sharma</b><br><small>Pune · Gold loyalty · Sample profile</small></p>
    <button class="btn ghost sm" data-go="household">Switch to household view</button>
    <button class="btn ghost sm" id="prefOpen">Communication preferences</button> <button class="btn sm" id="logout">Sign out</button>
   </div>
@@ -121,20 +125,20 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 <section class="page" id="home">
  <div class="hero"><div>
   <p id="today" style="opacity:.8;margin:0 0 .5rem"></p>
-  <h1>Good morning, Rahul. Your next journey starts here.</h1>
+  <h1 id="heroH1">Good morning, Rahul. Your next journey starts here.</h1>
   <p>Take care of your Swift, discover rewards, and find the right vehicle for your next chapter.</p>
-  <button class="btn" style="background:#fff;color:var(--pd)" data-book>Book My Service</button></div>
+  <button class="btn rahul-only" style="background:#fff;color:var(--pd)" data-book>Book My Service</button></div>
   <div id="heroCar"></div></div>
  <div class="quick">
-  <button data-book>Book My Service<small>Overdue – act now</small></button>
+  <button class="rahul-only" data-book>Book My Service<small>Overdue – act now</small></button>
   <button data-go="accessories">Explore Accessories<small>Picked for roof carriers</small></button>
-  <button data-go="offers">View My Rewards<small>4,200 points</small></button>
+  <button class="rahul-only" data-go="offers">View My Rewards<small>4,200 points</small></button>
   <button data-go="cars">Explore My Next Car<small>Brezza · Grand Vitara</small></button></div>
  <div class="grid g3">
-  <div class="card alert"><span class="stage">Why you're seeing this: service status</span><h3>Your Swift needs attention.</h3>
+  <div class="card alert rahul-only"><span class="stage">Why you're seeing this: service status</span><h3>Your Swift needs attention.</h3>
    <p>Your service is overdue and your warranty expires in <b>28 days</b>. Booking soon keeps your options open.</p>
    <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="myswift" data-hash="warranty">Warranty information</button></div></div>
-  <div class="card loy"><h3>Gold loyalty</h3><p style="font-size:2.4rem;margin:0;font-family:Georgia">4,200 <small style="font-size:1rem">points</small></p><p>Some rewards may be available for your balance.</p>
+  <div class="card loy rahul-only"><h3>Gold loyalty</h3><p style="font-size:2.4rem;margin:0;font-family:Georgia">4,200 <small style="font-size:1rem">points</small></p><p>Some rewards may be available for your balance.</p>
    <div class="push"><button class="btn sm" data-go="offers">Explore eligible rewards</button></div></div>
   <div class="card"><span class="stage">Why: browsing history</span><h3>Roof carriers for your Swift</h3>
    <p>Considering your interest in roof carriers, explore compatible accessories for your Swift.</p>
@@ -199,7 +203,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 <section class="page" id="household">
  <h2>Our Household Journey</h2><p class="lead">Rahul and Priya keep separate profiles and permissions. Shared insight appears only where both have allowed it.</p>
  <div class="grid g2">
-  <div class="card persona"><h3>Rahul</h3><ul><li>Swift ownership: service overdue, warranty in 28 days</li><li>Accessories and rewards</li><li>Upgrade exploration: Brezza, Grand Vitara</li></ul>
+  <div class="card persona rahul-card"><h3>Rahul</h3><ul><li>Swift ownership: service overdue, warranty in 28 days</li><li>Accessories and rewards</li><li>Upgrade exploration: Brezza, Grand Vitara</li></ul>
    <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="cars">Explore upgrades</button></div></div>
   <div class="card persona pr"><h3>Priya</h3><ul><li>MSDS (driving school) enrolment information for her daughter</li><li>True Value appraisal interest for a possible second car</li></ul>
    <p><span class="tag no">No enrolment or appraisal has been completed</span></p>
@@ -270,12 +274,25 @@ function fbImg(i){const d=document.createElement('div');d.innerHTML=decodeURICom
 function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2600)}
 
 /* ===== Navigation ===== */
+/* ===== Adobe Client Data Layer helpers =====
+ State pushes (no "event" key) update the data layer state. Event pushes trigger Launch rules. */
+function dlPush(obj){window.adobeDataLayer=window.adobeDataLayer||[];window.adobeDataLayer.push(obj)}
+function userState(user){return {customerId:user.customerId,email:user.email,persona:user.persona,loginStatus:"logged-in"}}
+let lastPage=null; /* avoids duplicate pageLoaded pushes for the same page */
+function trackPage(name){
+ if(!window.currentUser||name===lastPage)return; /* only track once signed in, once per page view */
+ lastPage=name;
+ const page={pageName:name,pageURL:window.location.href};
+ dlPush({page});                         /* page state object */
+ dlPush({event:"pageLoaded",page:{pageName:name}});
+}
 function go(id,hash){
  $$(".page").forEach(p=>p.classList.toggle("active",p.id===id));
  $$("[data-nav]").forEach(b=>b.toggleAttribute("aria-current",false)||b.dataset.nav===id&&b.setAttribute("aria-current","page"));
  $$("[data-nav]").forEach(b=>{if(b.dataset.nav!==id)b.removeAttribute("aria-current")});
  closeMenus();window.scrollTo(0,0);
  if(hash)setTimeout(()=>document.getElementById(hash)?.scrollIntoView({behavior:"smooth"}),50);
+ trackPage(id);
 }
 function closeMenus(){$$(".menu").forEach(m=>m.classList.remove("open"));$("#bell").setAttribute("aria-expanded","false");$("#prof").setAttribute("aria-expanded","false")}
 function buildNav(){
@@ -406,12 +423,67 @@ $("#tl").innerHTML=DATA.history.map((h,i)=>`<div class="${i==2?'due':''}"><b>${h
 $("#svcCards").innerHTML=DATA.services.map(s=>`<div class="card"><h3>${s[0]}</h3><p>${s[1]}</p><div class="push"><button class="btn sm" data-book>Book</button></div></div>`).join("");
 renderProducts();renderOffers();renderCars();renderNotes();
 /* Mock auth: demo credentials only. Replace with real SSO/identity service later. */
-const CRED={id:"rahul.sharma",pw:"Drive@2026"};
-$("#fill").onclick=()=>{$("#uid").value=CRED.id;$("#pw").value=CRED.pw;$("#pw").focus()};
+const USERS={
+ "rahul.sharma":{password:"Drive@2026",customerId:"CUST001",email:"rahul.sharma@demo.com",persona:"Rahul"},
+ "priya.sharma":{password:"Drive@2026",customerId:"CUST002",email:"priya.sharma@demo.com",persona:"Priya"}
+};
+/* What each persona sees. Priya gets her own journey and does not see Rahul's vehicle, service or loyalty data. */
+const PERSONAS={
+ Rahul:{full:"Rahul Sharma",sub:"Pune · Gold loyalty · Sample profile",initials:"RS",hello:"Good morning, Rahul. Your next journey starts here.",landing:"home"},
+ Priya:{full:"Priya Sharma",sub:"Pune · Household member · Sample profile",initials:"PS",hello:"Good morning, Priya. Let's plan what's next for your family.",landing:"household"}
+};
+const NOTES_BY={Rahul:DATA.notes,Priya:[
+ {id:11,t:"MSDS information",x:"Enrolment details for your daughter.",go:"household",u:1},
+ {id:12,t:"True Value appraisal",x:"Explore appraising a second car.",go:"household",u:1}]};
+const KEYS=["customerId","email","persona","loginStatus"];
+/* localStorage can be blocked (private mode); never let it break the page */
+const store={set(k,v){try{localStorage.setItem(k,v)}catch(e){}},get(k){try{return localStorage.getItem(k)}catch(e){return null}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+/* One place keeps localStorage and the data layer in sync */
+function startSession(user){
+ lastPage=null;
+ store.set("customerId",user.customerId);store.set("email",user.email);store.set("persona",user.persona);store.set("loginStatus","logged-in");
+ dlPush({user:userState(user)});         /* latest user state */
+}
+function endSession(){
+ lastPage=null;
+ KEYS.forEach(k=>store.del(k));
+ dlPush({user:{customerId:null,email:null,persona:null,loginStatus:"logged-out"}}); /* clear user state */
+ dlPush({event:"userLoggedOut"});
+}
+function applyPersona(user){
+ const p=PERSONAS[user.persona];if(!p)return false;
+ window.currentUser=user;
+ document.body.dataset.persona=user.persona;
+ $("#prof").textContent=p.initials;
+ $("#pmName").innerHTML=`<b>${p.full}</b><br><small>${p.sub}</small>`;
+ $("#heroH1").textContent=p.hello;
+ DATA.notes=NOTES_BY[user.persona];renderNotes();
+ return true;
+}
+function showApp(user){document.body.classList.remove("out");go(PERSONAS[user.persona].landing)}
+function fillDemo(i){const id=Object.keys(USERS)[i];$("#uid").value=id;$("#pw").value=USERS[id].password;$("#pw").focus()}
+$("#fill").onclick=()=>fillDemo(0);
+$("#fillP").onclick=()=>fillDemo(1);
 $("#lf").addEventListener("submit",e=>{e.preventDefault();
- if($("#uid").value.trim().toLowerCase()===CRED.id&&$("#pw").value===CRED.pw){$("#loginErr").style.display="none";document.body.classList.remove("out");go("home");toast("Welcome back, Rahul")}
- else{$("#loginErr").style.display="block";$("#pw").focus()}});
-document.addEventListener("click",e=>{if(e.target.id==="logout"){closeMenus();document.body.classList.add("out");$("#pw").value="";window.scrollTo(0,0)}});
+ const user=USERS[$("#uid").value.trim().toLowerCase()];
+ if(user&&user.password===$("#pw").value){
+  startSession(user);                    /* localStorage + user state */
+  applyPersona(user);
+  dlPush({event:"userLoggedIn",user:userState(user)});
+  $("#loginErr").style.display="none";
+  showApp(user);toast(`Welcome back, ${user.persona}`);
+ }else{$("#loginErr").style.display="block";$("#pw").focus()}});
+document.addEventListener("click",e=>{if(e.target.id==="logout"){
+ endSession();
+ window.currentUser=null;delete document.body.dataset.persona;
+ closeMenus();document.body.classList.add("out");$("#pw").value="";window.scrollTo(0,0)}});
+/* Restore session after refresh */
 $("#today").textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-go("home");
+(function(){
+ if(store.get("loginStatus")==="logged-in"){
+  const u=Object.values(USERS).find(x=>x.customerId===store.get("customerId")&&x.persona===store.get("persona"));
+  if(u&&applyPersona(u)){dlPush({user:userState(u)});showApp(u);return} /* restore state, then page tracking via go() */
+ }
+ go("home");
+})();
 </script></body></html>
