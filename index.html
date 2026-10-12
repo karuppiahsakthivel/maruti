@@ -49,7 +49,7 @@ body{overflow-x:hidden}
 .tl{border-left:3px solid var(--pl);margin:1rem 0 1rem .6rem;padding-left:1.2rem}.tl div{position:relative;margin-bottom:1rem}.tl div:before{content:"";position:absolute;left:-1.7rem;top:.35rem;width:12px;height:12px;border-radius:50%;background:var(--p)}.tl .due:before{background:var(--warn)}
 .filters{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem}select,input,textarea{font:inherit;padding:.5em .7em;border:1px solid #c9c5d3;border-radius:8px;width:100%;background:#fff}
 .filters select{width:auto}label{font-weight:600;font-size:.9rem;display:block;margin-bottom:.8rem}
-.cartbar{position:sticky;bottom:70px;background:var(--ink);color:#fff;border-radius:14px;padding:.8rem 1.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.cartbar{position:static;background:var(--ink);color:#fff;border-radius:14px;padding:.8rem 1.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
 dialog{border:0;border-radius:18px;padding:1.6rem;width:min(560px,94vw);box-shadow:0 20px 60px #0006}dialog::backdrop{background:#150a2499}
 .err{color:var(--bad);font-size:.82rem;display:none;font-weight:400}.bad input+.err,.bad select+.err{display:block}
 .sw{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line)}
@@ -80,6 +80,9 @@ body:not(.out) #pub{display:none}
 .cb{position:absolute;bottom:20px;left:8px;width:265px;height:53px;border-radius:45px 62px 17px 16px;background:#466f91;box-shadow:inset 0 -9px 0 #365b78}
 .wh{position:absolute;bottom:0;width:42px;height:42px;border:9px solid #263a4a;border-radius:50%;background:#a9b5b8;z-index:2}
 #pub h1 em{color:var(--p)}
+button.imgbtn{border:0;width:100%;cursor:pointer;font:inherit}button.imgbtn:hover{outline:2px solid var(--p)}
+.plink{color:inherit;text-decoration:none}.plink:hover{color:var(--p);text-decoration:underline}
+.dl ul{padding-left:1.2rem;margin:.4rem 0 1rem}.dl .img{margin-bottom:1rem}
 footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 @media(max-width:900px){.g3,.g4,.quick{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr;padding:2rem 1.4rem}nav.top{display:none}.mobnav{display:flex}}
 @media(max-width:560px){.g2,.g3,.g4,.quick{grid-template-columns:1fr}}
@@ -240,10 +243,10 @@ const DATA={
  dealers:["DriveLife Kothrud, Pune","DriveLife Hinjewadi, Pune","DriveLife Viman Nagar, Pune"],
  services:[["Periodic service","Oil, filters, general inspection"],["Brake & tyre check","Pads, discs, alignment"],["Pre-warranty inspection","Check before warranty ends"]],
  products:[
-  {id:"roof-carrier",name:"Roof carrier",cat:"Exterior",comp:"swift",price:8900,d:"Extra luggage space for trips.",c:"#6a1fb0"},
-  {id:"mats",name:"Floor mats",cat:"Interior",comp:"swift",price:2400,d:"Custom-fit style, easy to clean.",c:"#3b3a46"},
-  {id:"brake",name:"Genuine brake pads",cat:"Parts",comp:"swift",price:3200,d:"Replacement set, fitted at service.",c:"#8a5bc0"},
-  {id:"seat",name:"Interior protection kit",cat:"Interior",comp:"all",price:1800,d:"Seat and console protection.",c:"#c0398f"}],
+  {id:"1",img:"mats3d",name:"All-weather 3D mats",cat:"Interior",comp:"swift",price:3200,d:"Raised edges to catch dirt and water.",c:"#3b3a46",more:"Tray-style mats that help keep water, mud and dust off the carpet.",feat:["Raised edges to hold spills","Easy to rinse and wipe clean","Anti-slip backing","Set for front and rear footwells"],use:"Rinse with water and let dry before refitting."},
+  {id:"2",img:"boot",name:"Boot organizer",cat:"Interior",comp:"swift",price:2100,d:"Keeps luggage and essentials in place.",c:"#6751c8",more:"A boot organizer with compartments so bags, tools and small items stay put while you drive.",feat:["Multiple compartments","Non-slip base","Folds flat when not needed","Wipe-clean material"],use:"Place on the boot floor and fold away when you need the full space."},
+  {id:"3",img:"sill",name:"Door sill guards",cat:"Exterior",comp:"swift",price:1500,d:"Protects door edges from scuffs.",c:"#8a5bc0",more:"Guards for the door sill area to reduce scuffs from shoes and luggage when getting in and out.",feat:["Set for the four door sills","Scuff-resistant surface","Slim profile","Easy to wipe clean"],use:"Clean the surface before fitting. Dealer fitting can be arranged."},
+  {id:"4",img:"cabin",name:"Cabin care kit",cat:"Interior",comp:"all",price:1800,d:"Cleaning and protection for the cabin.",c:"#c0398f",more:"A starter kit for keeping the cabin clean and fresh between services.",feat:["Dashboard and trim cleaner","Microfibre cloths","Upholstery brush","Protectant for plastics"],use:"Use as directed on each product. Test on a small area first."}],
  offers:[
   {id:"o1",t:"Service package offer",x:"Periodic service bundle with inspection.",exp:"31 Oct 2026",elig:"ok",why:"Signal: your service status is overdue."},
   {id:"o2",t:"Loyalty-point redemption",x:"Use points toward service or accessories.",exp:"No expiry",elig:"ok",why:"Signal: loyalty balance of 4,200 points."},
@@ -308,10 +311,10 @@ function renderProducts(){
  const cat=$("#fCat").value,comp=$("#fComp").value;
  const list=DATA.products.filter(p=>(!cat||p.cat===cat)&&(!comp||p.comp===comp))
   .sort((a,b)=>DATA.user.browsed.includes(b.id)-DATA.user.browsed.includes(a.id));
- $("#prodGrid").innerHTML=list.length?list.map(p=>`<div class="card"><div class="img">${pic(p.id,p.c,false,p.name)}</div>
+ $("#prodGrid").innerHTML=list.length?list.map(p=>`<div class="card"><button class="img imgbtn" data-detail="${p.id}" aria-label="View details: ${p.name}">${pic(p.img,p.c,false,p.name)}</button>
   ${DATA.user.browsed.includes(p.id)?'<span class="tag">Picked from your browsing</span>':''}
-  <h3>${p.name}</h3><p>${p.d}</p><p><span class="tag ${p.comp==='swift'?'ok':''}">${p.comp==='swift'?'Swift: sample compatibility':'Multi-model (sample)'}</span><span class="tag no">Demo data</span></p>
-  <b>${inr(p.price)}</b><div class="push"><button class="btn sm" data-sel="${p.id}" aria-pressed="${S.sel.has(p.id)}">${S.sel.has(p.id)?'Selected ✓':'Add to selection'}</button><button class="btn ghost sm" data-save="${p.id}">${S.saved.has(p.id)?'Saved ♥':'Save'}</button></div></div>`).join(""):"<p>No items match these filters. Try clearing a filter.</p>";
+  <h3><a href="#" class="plink" data-detail="${p.id}">${p.name}</a></h3><p>${p.d}</p><p><span class="tag ${p.comp==='swift'?'ok':''}">${p.comp==='swift'?'Swift: sample compatibility':'Multi-model (sample)'}</span><span class="tag no">Demo data</span></p>
+  <b>${inr(p.price)}</b><div class="push"><button class="btn sm" data-sel="${p.id}" aria-pressed="${S.sel.has(p.id)}">${S.sel.has(p.id)?'Selected ✓':'Add to selection'}</button><button class="btn ghost sm" data-detail="${p.id}">Details</button><button class="btn ghost sm" data-save="${p.id}">${S.saved.has(p.id)?'Saved ♥':'Save'}</button></div></div>`).join(""):"<p>No items match these filters. Try clearing a filter.</p>";
  const n=S.sel.size,tot=[...S.sel].reduce((s,id)=>s+DATA.products.find(p=>p.id===id).price,0);
  $("#cartInfo").textContent=n?`${n} item(s) selected · ${inr(tot)}`:"Nothing selected yet";
 }
@@ -333,7 +336,18 @@ function renderNotes(){
 
 /* ===== Dialogs ===== */
 const dlg=$("#dlg");
-function open(html){dlg.innerHTML=html+`<form method="dialog" style="margin-top:1rem"><button class="btn ghost sm">Close</button></form>`;if(!dlg.open)dlg.showModal();}
+function open(html){delete dlg.dataset.pid;dlg.innerHTML=html+`<form method="dialog" style="margin-top:1rem"><button class="btn ghost sm">Close</button></form>`;if(!dlg.open)dlg.showModal();}
+function productDialog(id){
+ const p=DATA.products.find(x=>x.id===id);if(!p)return;
+ const inSel=S.sel.has(id);
+ open(`<div class="dl"><h2 id="dlgT">${p.name}</h2><div class="img">${pic(p.img,p.c,false,p.name)}</div>
+ <p><span class="tag">${p.cat}</span><span class="tag ${p.comp==='swift'?'ok':''}">${p.comp==='swift'?'Swift: sample compatibility':'Multi-model (sample)'}</span><span class="tag no">Demo data</span></p>
+ <p>${p.more}</p><b>Key features</b><ul>${p.feat.map(f=>`<li>${f}</li>`).join("")}</ul>
+ <b>Care and use</b><p>${p.use}</p><p><b>${inr(p.price)}</b></p>
+ <p class="demo">Details, price and compatibility are demonstration data. No live stock or verified fitment is claimed; confirm with your dealership.</p>
+ <button class="btn sm" data-sel="${p.id}">${inSel?'Selected ✓ (tap to remove)':'Add to selection'}</button></div>`);
+ dlg.dataset.pid=id;
+}
 function bookingForm(pre){
  const tomorrow=new Date(Date.now()+864e5).toISOString().slice(0,10);
  open(`<h2 id="dlgT">Book a service</h2><p class="demo">Simulated booking. No real appointment will be created.</p>
@@ -373,7 +387,8 @@ document.addEventListener("click",e=>{
  else if(d.nav)go(d.nav);
  else if(t.hasAttribute("data-book"))bookingForm();
  else if(d.scroll)document.getElementById(d.scroll).scrollIntoView({behavior:"smooth"});
- else if(d.sel){S.sel.has(d.sel)?S.sel.delete(d.sel):S.sel.add(d.sel);renderProducts()}
+ else if(d.detail){e.preventDefault();productDialog(d.detail)}
+ else if(d.sel){S.sel.has(d.sel)?S.sel.delete(d.sel):S.sel.add(d.sel);renderProducts();if(dlg.open&&dlg.dataset.pid)productDialog(dlg.dataset.pid)}
  else if(d.save){S.saved.has(d.save)?S.saved.delete(d.save):S.saved.add(d.save);renderProducts();toast("Saved items updated")}
  else if(d.savecar){S.saved.has(d.savecar)?S.saved.delete(d.savecar):S.saved.add(d.savecar);renderCars();toast("Saved vehicles updated")}
  else if(d.cmp){S.cmp.has(d.cmp)?S.cmp.delete(d.cmp):S.cmp.size<3?S.cmp.add(d.cmp):toast("Compare up to 3 vehicles");renderCars()}
