@@ -54,7 +54,6 @@ dialog{border:0;border-radius:18px;padding:1.6rem;width:min(560px,94vw);box-shad
 .err{color:var(--bad);font-size:.82rem;display:none;font-weight:400}.bad input+.err,.bad select+.err{display:block}
 .sw{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--line)}
 .sw input{width:auto;transform:scale(1.3)}
-.persona{border-top:5px solid var(--p)}.persona.pr{border-top-color:#c0398f}
 .mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:30;justify-content:space-around;padding:.3rem}
 .mobnav button{background:none;border:0;font-size:.7rem;padding:.4rem;color:var(--mut)}.mobnav button[aria-current=page]{color:var(--p);font-weight:700}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:#fff;padding:.7em 1.2em;border-radius:99px;z-index:50;display:none}
@@ -64,7 +63,6 @@ body:not(.out) #pub{display:none}
 #pub .bar{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.4rem;border-bottom:1px solid var(--line)}
 #pub .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.2rem;display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center}
 #pub .login{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.6rem;box-shadow:0 14px 40px #0002}
-#pub body[data-persona=Priya] .rahul-only,body[data-persona=Priya] [data-nav=myswift],body[data-persona=Priya] [data-nav=service],body[data-persona=Priya] [data-nav=offers],body[data-persona=Priya] .rahul-card{display:none!important}
 .cred{background:var(--pl);border-radius:10px;padding:.7em .9em;font-size:.88rem;margin-bottom:1rem}
 #loginErr{color:var(--bad);display:none;margin:.5rem 0}
 @media(max-width:800px){#pub .wrap{grid-template-columns:1fr}}
@@ -94,13 +92,13 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
  <div class="bar"><span class="logo"><span class="mk">D</span>drive<span>life</span></span><a href="#uid" class="btn sm" style="text-decoration:none">Sign in</a></div>
  <div class="wrap"><div>
   <h1>A better journey <em>starts here.</em></h1>
-  <p class="lead">Sign in to see service reminders, accessories, rewards and car suggestions chosen for you and your household.</p>
+  <p class="lead">Sign in to see service reminders, accessories, rewards and car suggestions chosen for you.</p>
   <div class="hv" role="img" aria-label="Illustration of a blue car on a road"><div class="sun"></div><div class="cl" style="top:90px;left:65px"></div><div class="cl" style="top:145px;right:30px;transform:scale(.7)"></div><div class="road"></div><div class="cari"><div class="cw"></div><div class="cb"></div><div class="wh" style="left:45px"></div><div class="wh" style="right:39px"></div></div></div>
   <div class="grid g3" style="margin-top:1rem"><div><b>Service</b><br><small>Request appointments with your dealership.</small></div><div><b>Rewards</b><br><small>Use loyalty points on service and accessories.</small></div><div><b>Explore</b><br><small>Browse new cars, EV information and True Value.</small></div></div>
  </div>
  <form class="login" id="lf" novalidate aria-labelledby="lt">
   <h2 id="lt">Sign in</h2>
-  <div class="cred"><b>Demo login</b><br>User ID: <code>rahul.sharma</code><br>Password: <code>Drive@2026</code><br><br>Second user: <code>priya.sharma</code> / <code>Drive@2026</code><br><button type="button" class="btn ghost sm" id="fill" style="margin-top:.5rem">Fill Rahul</button> <button type="button" class="btn ghost sm" id="fillP" style="margin-top:.5rem">Fill Priya</button></div>
+  <div class="cred"><b>Demo login</b><br>User ID: <code>rahul.sharma</code><br>Password: <code>Drive@2026</code><br><button type="button" class="btn ghost sm" id="fill" style="margin-top:.5rem">Fill Rahul</button></div>
   <label>User ID<input id="uid" autocomplete="username" required></label>
   <label>Password<input id="pw" type="password" autocomplete="current-password" required></label>
   <div id="loginErr" role="alert">User ID or password is incorrect. Check the demo details above.</div>
@@ -117,8 +115,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
   <button class="ic" id="prof" aria-label="Profile menu" aria-expanded="false">RS</button>
   <div class="menu" id="notifMenu" role="region" aria-label="Notifications"></div>
   <div class="menu" id="profMenu">
-   <p id="pmName"><b>Rahul Sharma</b><br><small>Pune · Gold loyalty · Sample profile</small></p>
-   <button class="btn ghost sm" data-go="household">Switch to household view</button>
+   <p id="pmName"><b>Rahul Sharma</b><br><small>Gurugram · Gold loyalty · Sample profile</small></p>
    <button class="btn ghost sm" id="prefOpen">Communication preferences</button> <button class="btn sm" id="logout">Sign out</button>
   </div>
  </div>
@@ -133,18 +130,18 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
   <button class="btn rahul-only" style="background:#fff;color:var(--pd)" data-book>Book My Service</button></div>
   <div id="heroCar"></div></div>
  <div class="quick">
-  <button class="rahul-only" data-book>Book My Service<small>Overdue – act now</small></button>
-  <button data-go="accessories">Explore Accessories<small>Picked for roof carriers</small></button>
-  <button class="rahul-only" data-go="offers">View My Rewards<small>4,200 points</small></button>
+  <button class="rahul-only" data-book>Book My Service<small>Due 15 Oct</small></button>
+  <button data-go="accessories">Explore Accessories<small>Picked for all-weather mats</small></button>
+  <button class="rahul-only" data-go="offers">View My Rewards<small>4,650 points</small></button>
   <button data-go="cars">Explore My Next Car<small>Brezza · Grand Vitara</small></button></div>
  <div class="grid g3">
-  <div class="card alert rahul-only"><span class="stage">Why you're seeing this: service status</span><h3>Your Swift needs attention.</h3>
-   <p>Your service is overdue and your warranty expires in <b>28 days</b>. Booking soon keeps your options open.</p>
+  <div class="card alert rahul-only"><span class="stage">Why you're seeing this: service status</span><h3>Your Swift service is due soon.</h3>
+   <p>Your periodic service is due on <b>15 October</b>. Book a slot now to pick a convenient time at your preferred dealership.</p>
    <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="myswift" data-hash="warranty">Warranty information</button></div></div>
-  <div class="card loy rahul-only"><h3>Gold loyalty</h3><p style="font-size:2.4rem;margin:0;font-family:Georgia">4,200 <small style="font-size:1rem">points</small></p><p>Some rewards may be available for your balance.</p>
+  <div class="card loy rahul-only"><h3>Gold loyalty</h3><p style="font-size:2.4rem;margin:0;font-family:Georgia">4,650 <small style="font-size:1rem">points</small></p><p>Some rewards may be available for your balance.</p>
    <div class="push"><button class="btn sm" data-go="offers">Explore eligible rewards</button></div></div>
-  <div class="card"><span class="stage">Why: browsing history</span><h3>Roof carriers for your Swift</h3>
-   <p>Considering your interest in roof carriers, explore compatible accessories for your Swift.</p>
+  <div class="card"><span class="stage">Why: browsing history</span><h3>All-weather mats for your Swift</h3>
+   <p>Considering your interest in all-weather 3D mats, explore compatible accessories for your Swift.</p>
    <div class="push"><button class="btn sm" data-go="accessories">See accessories</button></div></div>
  </div>
  <p class="demo">All profile data, offers and products on this site are mock demonstration data. DriveLife is a fictional brand inspired by an automotive ecosystem; this is not an official Maruti Suzuki website.</p>
@@ -155,13 +152,13 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
  <h2>My Swift</h2>
  <div class="grid g2">
   <div class="card"><div class="img" id="swiftImg"></div>
-   <h3>2019 Swift petrol</h3>
-   <p><span class="tag">≈ 68,000 km</span><span class="tag">MH12 ••• 4821 (masked sample)</span><span class="tag warn">Service overdue</span><span class="tag warn" id="wcount">Warranty: 28 days left</span><span class="tag no">Connected services: sample data</span></p>
+   <h3>2019 Swift ZXI petrol</h3>
+   <p><span class="tag">≈ 66,800 km</span><span class="tag">HR26 ••• 4127 (masked sample)</span><span class="tag warn">Service due 15 Oct</span><span class="tag ok" id="wcount">Warranty: active until Nov 2027</span><span class="tag no">Connected services: sample data</span></p>
    <div class="push"><button class="btn sm" data-book>Book Service</button><button class="btn ghost sm" data-scroll="hist">View Service History</button><button class="btn ghost sm" data-scroll="warranty">Check Warranty Information</button><button class="btn ghost sm" data-go="accessories">Explore Genuine Accessories</button></div></div>
   <div class="card" id="warranty"><h3>Warranty information</h3>
-   <p>In this sample, your warranty ends in 28 days. Servicing before then is generally recommended. Terms vary: confirm coverage and eligible protection options with your dealership.</p>
+   <p>In this sample, your warranty is active until 6 November 2027. Regular servicing helps keep your coverage in good standing. Terms vary: confirm coverage and eligible protection options with your dealership.</p>
    <h3 style="margin-top:1rem">Maintenance information</h3>
-   <p>At around 68,000 km, typical checks include engine oil and filter, brake pads, tyres, battery and suspension. Exact needs depend on inspection.</p>
+   <p>Your next service is due at around 68,000 km. Typical checks include engine oil and filter, brake pads, tyres, battery and suspension. Exact needs depend on inspection.</p>
    <p class="demo">No live connection to your vehicle, telemetry or dealer records exists. Everything shown is sample data.</p></div>
  </div>
  <h3 class="sec" id="hist">Service history (sample)</h3>
@@ -178,7 +175,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 
 <!-- ACCESSORIES -->
 <section class="page" id="accessories">
- <h2>Accessories &amp; Parts</h2><p class="lead">Shown first: items related to the roof carriers you viewed.</p>
+ <h2>Accessories &amp; Parts</h2><p class="lead">Shown first: items related to the all-weather mats you viewed.</p>
  <div class="filters"><select id="fCat" aria-label="Category"><option value="">All categories</option><option>Exterior</option><option>Interior</option><option>Parts</option></select>
   <select id="fComp" aria-label="Compatibility"><option value="">All compatibility</option><option value="swift">Fits Swift (sample)</option><option value="all">Multi-model</option></select></div>
  <div class="grid g4" id="prodGrid"></div>
@@ -190,33 +187,16 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 <section class="page" id="offers">
  <h2>Offers Selected for Rahul</h2>
  <div class="card loy" style="margin-bottom:1rem;flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-  <div><h3 style="margin:0">Loyalty balance</h3><span style="font-size:2.2rem;font-family:Georgia" id="pts">4,200</span> points</div>
+  <div><h3 style="margin:0">Loyalty balance</h3><span style="font-size:2.2rem;font-family:Georgia" id="pts">4,650</span> points</div>
   <button class="btn sm" id="redeemOpen">Redeem points</button></div>
  <div class="grid g3" id="offerGrid"></div>
 </section>
 
 <!-- CARS -->
 <section class="page" id="cars">
- <h2>Explore Cars</h2><p class="lead">Suggestions reflect your Swift ownership and your household's browsing.</p>
+ <h2>Explore Cars</h2><p class="lead">Suggestions reflect your Swift ownership.</p>
  <div class="grid g3" id="carGrid"></div>
  <div class="card" id="cmpBox" style="margin-top:1rem;display:none"><h3>Compare vehicles</h3><div id="cmpOut"></div></div>
-</section>
-
-<!-- HOUSEHOLD -->
-<section class="page" id="household">
- <h2>Our Household Journey</h2><p class="lead">Rahul and Priya keep separate profiles and permissions. Shared insight appears only where both have allowed it.</p>
- <div class="grid g2">
-  <div class="card persona rahul-card"><h3>Rahul</h3><ul><li>Swift ownership: service overdue, warranty in 28 days</li><li>Accessories and rewards</li><li>Upgrade exploration: Brezza, Grand Vitara</li></ul>
-   <div class="push"><button class="btn sm" data-book>Book service</button><button class="btn ghost sm" data-go="cars">Explore upgrades</button></div></div>
-  <div class="card persona pr"><h3>Priya</h3><ul><li>MSDS (driving school) enrolment information for her daughter</li><li>True Value appraisal interest for a possible second car</li></ul>
-   <p><span class="tag no">No enrolment or appraisal has been completed</span></p>
-   <div class="push"><button class="btn sm" data-info="msds">View MSDS information</button><button class="btn ghost sm" data-info="tv">Explore True Value appraisal</button></div></div>
- </div>
- <div class="card" style="margin-top:1rem"><h3>Household benefits</h3>
-  <p>If both of you agree, we could show combined ideas such as a second car appraisal alongside Rahul's upgrade plans.</p>
-  <label class="sw" style="font-weight:400"><span>Rahul allows household suggestions</span><input type="checkbox" id="hhR" checked></label>
-  <label class="sw" style="font-weight:400"><span>Priya allows household suggestions (sample: not yet)</span><input type="checkbox" id="hhP"></label>
-  <div class="push"><button class="btn" id="hhBtn">Explore Household Benefits</button></div><p id="hhOut" style="margin-top:.8rem"></p></div>
 </section>
 
 <!-- HELP -->
@@ -237,33 +217,33 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:2rem 1rem}
 <script>
 /* ===== MOCK DATA (replace with real services later) ===== */
 const DATA={
- user:{name:"Rahul",serviceOverdue:true,warrantyDays:28,points:4200,browsed:["roof-carrier"],channels:{push:true,whatsapp:true,email:true}},
- pages:[["home","Home","🏠"],["myswift","My Swift","🚗"],["service","Service & Maintenance","🔧"],["accessories","Accessories","🧰"],["offers","Offers & Rewards","🎁"],["cars","Explore Cars","🔍"],["household","My Household","👪"],["help","Help & Support","💬"]],
- history:[["Mar 2024","Second service · 52,000 km","Completed (sample)"],["Feb 2023","First major service · 38,000 km","Completed (sample)"],["Now","Service due · ~68,000 km","Overdue"]],
- dealers:["DriveLife Kothrud, Pune","DriveLife Hinjewadi, Pune","DriveLife Viman Nagar, Pune"],
- services:[["Periodic service","Oil, filters, general inspection"],["Brake & tyre check","Pads, discs, alignment"],["Pre-warranty inspection","Check before warranty ends"]],
+ user:{name:"Rahul",customerId:"MSCUST-2001",serviceDue:true,serviceDueDate:"2026-10-15",warrantyExpiry:"2027-11-06",points:4650,browsed:["1"],channels:{push:true,whatsapp:true,email:true}},
+ pages:[["home","Home","🏠"],["myswift","My Swift","🚗"],["service","Service & Maintenance","🔧"],["accessories","Accessories","🧰"],["offers","Offers & Rewards","🎁"],["cars","Explore Cars","🔍"],["help","Help & Support","💬"]],
+ history:[["Mar 2019","Swift purchased · Showroom","Delivered (sample)"],["Oct 2025","Periodic service · 58,000 km","Completed (sample)"],["15 Oct 2026","Periodic service due · 68,000 km","Due soon"]],
+ dealers:["DriveLife Sector 29, Gurugram","DriveLife Udyog Vihar, Gurugram","DriveLife Sohna Road, Gurugram"],
+ services:[["Periodic service","Oil, filters, general inspection"],["Brake & tyre check","Pads, discs, alignment"],["Health check","Inspection of brakes, battery and fluids"]],
  products:[
   {id:"1",img:"mats3d",name:"All-weather 3D mats",cat:"Interior",comp:"swift",price:3200,d:"Raised edges to catch dirt and water.",c:"#3b3a46",more:"Tray-style mats that help keep water, mud and dust off the carpet.",feat:["Raised edges to hold spills","Easy to rinse and wipe clean","Anti-slip backing","Set for front and rear footwells"],use:"Rinse with water and let dry before refitting."},
   {id:"2",img:"boot",name:"Boot organizer",cat:"Interior",comp:"swift",price:2100,d:"Keeps luggage and essentials in place.",c:"#6751c8",more:"A boot organizer with compartments so bags, tools and small items stay put while you drive.",feat:["Multiple compartments","Non-slip base","Folds flat when not needed","Wipe-clean material"],use:"Place on the boot floor and fold away when you need the full space."},
   {id:"3",img:"sill",name:"Door sill guards",cat:"Exterior",comp:"swift",price:1500,d:"Protects door edges from scuffs.",c:"#8a5bc0",more:"Guards for the door sill area to reduce scuffs from shoes and luggage when getting in and out.",feat:["Set for the four door sills","Scuff-resistant surface","Slim profile","Easy to wipe clean"],use:"Clean the surface before fitting. Dealer fitting can be arranged."},
   {id:"4",img:"cabin",name:"Cabin care kit",cat:"Interior",comp:"all",price:1800,d:"Cleaning and protection for the cabin.",c:"#c0398f",more:"A starter kit for keeping the cabin clean and fresh between services.",feat:["Dashboard and trim cleaner","Microfibre cloths","Upholstery brush","Protectant for plastics"],use:"Use as directed on each product. Test on a small area first."}],
  offers:[
-  {id:"o1",t:"Service package offer",x:"Periodic service bundle with inspection.",exp:"31 Oct 2026",elig:"ok",why:"Signal: your service status is overdue."},
-  {id:"o2",t:"Loyalty-point redemption",x:"Use points toward service or accessories.",exp:"No expiry",elig:"ok",why:"Signal: loyalty balance of 4,200 points."},
-  {id:"o3",t:"Accessory promotion",x:"Savings on roof carriers and mats.",exp:"15 Nov 2026",elig:"ok",why:"Signal: you viewed roof carriers."},
-  {id:"o4",t:"Warranty protection options",x:"Extended protection may be available after inspection.",exp:"Before warranty ends",elig:"check",why:"Signal: warranty expires in 28 days. Eligibility depends on inspection."},
-  {id:"o5",t:"EV campaign invitation",x:"Join an exploration journey for electric cars.",exp:"30 Nov 2026",elig:"check",why:"Signal: household interest in new cars. You can opt out anytime."}],
+  {id:"o1",t:"Service package offer",x:"Periodic service bundle with inspection.",exp:"31 Oct 2026",elig:"ok",why:"Signal: your periodic service is due on 15 Oct 2026."},
+  {id:"o2",t:"Loyalty-point redemption",x:"Use points toward service or accessories.",exp:"No expiry",elig:"ok",why:"Signal: loyalty balance of 4,650 points."},
+  {id:"o3",t:"Accessory promotion",x:"Savings on all-weather mats and interior accessories.",exp:"15 Nov 2026",elig:"ok",why:"Signal: you viewed all-weather 3D mats."},
+  {id:"o4",t:"Warranty protection options",x:"Your warranty is active until 6 Nov 2027. Extended protection may be available later.",exp:"Before warranty ends",elig:"check",why:"Signal: warranty active until 6 Nov 2027. Eligibility depends on inspection."},
+  {id:"o5",t:"EV campaign invitation",x:"Join an exploration journey for electric cars.",exp:"30 Nov 2026",elig:"check",why:"Signal: sample interest in new cars. You can opt out anytime."}],
  cars:[
   {id:"swift",n:"Swift",t:"Your current model",c:"#6a1fb0",b:"Compact hatchback",tag:"You own this"},
-  {id:"brezza",n:"Brezza",t:"Compact SUV · more space",c:"#2f4d6b",b:"Compact SUV",tag:"Household interest"},
-  {id:"gv",n:"Grand Vitara",t:"Mid-size SUV",c:"#3b3a46",b:"Mid-size SUV",tag:"Household interest"},
+  {id:"brezza",n:"Brezza",t:"Compact SUV · more space",c:"#2f4d6b",b:"Compact SUV",tag:"Suggested for you"},
+  {id:"gv",n:"Grand Vitara",t:"Mid-size SUV",c:"#3b3a46",b:"Mid-size SUV",tag:"Suggested for you"},
   {id:"ev",n:"EV exploration",t:"A journey to learn about electric driving. No specific vehicle or offer is confirmed.",c:"#1d7a4d",b:"EV campaign",tag:"Campaign"},
   {id:"tv",n:"True Value used car",t:"Pre-owned cars and appraisal of your own. Separate from new-car exploration.",c:"#b4531a",b:"Used car",tag:"Used cars"}],
  notes:[
-  {id:1,t:"Service overdue",x:"Your Swift is due for service.",go:"service",u:1},
-  {id:2,t:"Warranty expiry reminder",x:"28 days left in sample warranty.",go:"myswift",u:1},
-  {id:3,t:"Accessory recommendation",x:"Roof carriers for your Swift.",go:"accessories",u:1},
-  {id:4,t:"Rewards update",x:"4,200 points available.",go:"offers",u:0},
+  {id:1,t:"Service due soon",x:"Your Swift's periodic service is due on 15 Oct.",go:"service",u:1},
+  {id:2,t:"Warranty status",x:"Sample warranty is active until 6 Nov 2027.",go:"myswift",u:1},
+  {id:3,t:"Accessory recommendation",x:"All-weather 3D mats for your Swift.",go:"accessories",u:1},
+  {id:4,t:"Rewards update",x:"4,650 points available.",go:"offers",u:0},
   {id:5,t:"EV campaign invitation",x:"Explore electric driving.",go:"cars",u:1}]
 };
 const S={sel:new Set(),saved:new Set(),cmp:new Set(),pts:DATA.user.points,booked:null};
@@ -300,12 +280,12 @@ function go(id,hash){
 function closeMenus(){$$(".menu").forEach(m=>m.classList.remove("open"));$("#bell").setAttribute("aria-expanded","false");$("#prof").setAttribute("aria-expanded","false")}
 function buildNav(){
  $("#nav").innerHTML=DATA.pages.map(p=>`<button data-nav="${p[0]}">${p[1]}</button>`).join("");
- $("#mnav").innerHTML=[0,1,3,4,6].map(i=>`<button data-nav="${DATA.pages[i][0]}">${DATA.pages[i][2]}<br>${DATA.pages[i][1].split(" ")[0]}</button>`).join("")+`<button id="moreBtn">☰<br>More</button>`;
+ $("#mnav").innerHTML=[0,1,3,4,5].map(i=>`<button data-nav="${DATA.pages[i][0]}">${DATA.pages[i][2]}<br>${DATA.pages[i][1].split(" ")[0]}</button>`).join("")+`<button id="moreBtn">☰<br>More</button>`;
 }
 
 /* ===== Personalization logic (mock) =====
  Accessories: items matching browsing history rank first.
- Service card: shown as an alert only when serviceOverdue is true.
+ Service card: shown as an alert only when serviceDue is true.
  Offers: eligibility is "ok" only where a sample signal supports it; others say "check". */
 function renderProducts(){
  const cat=$("#fCat").value,comp=$("#fComp").value;
@@ -352,7 +332,7 @@ function bookingForm(pre){
  const tomorrow=new Date(Date.now()+864e5).toISOString().slice(0,10);
  open(`<h2 id="dlgT">Book a service</h2><p class="demo">Simulated booking. No real appointment will be created.</p>
  <form id="bf" novalidate>
- <label>Vehicle<select name="veh" required><option value="">Select…</option><option>2019 Swift petrol (MH12 ••• 4821)</option></select><span class="err">Select a vehicle.</span></label>
+ <label>Vehicle<select name="veh" required><option value="">Select…</option><option>2019 Swift ZXI petrol (HR26 ••• 4127)</option></select><span class="err">Select a vehicle.</span></label>
  <label>Service type<select name="type" required><option value="">Select…</option>${DATA.services.map(s=>`<option>${s[0]}</option>`).join("")}</select><span class="err">Select a service type.</span></label>
  <label>Preferred dealership<select name="dl" required><option value="">Select…</option>${DATA.dealers.map(d=>`<option>${d}</option>`).join("")}</select><span class="err">Select a dealership.</span></label>
  <label>Preferred date<input type="date" name="date" min="${tomorrow}" required><span class="err">Choose a future date.</span></label>
@@ -401,20 +381,16 @@ document.addEventListener("click",e=>{
   else if(d.offer==="o3")go("accessories");
   else if(d.offer==="o4")open(`<h2 id="dlgT">Protection options</h2><p>Eligibility is confirmed by your dealership after an inspection. Book a pre-warranty inspection to find out.</p><button class="btn" data-book>Book inspection</button>`);
   else open(`<h2 id="dlgT">EV exploration</h2><p>You're interested in learning about EVs? We'll share information using your allowed channels only.</p><button class="btn" onclick="toast('Interest noted (simulated)');dlg.close()">Notify me</button>`)}
- else if(d.info==="msds")open(`<h2 id="dlgT">MSDS information</h2><p>Learn about driving-school enrolment for your daughter. This is information only: no enrolment has been made.</p><p class="demo">Sample content.</p>`);
- else if(d.info==="tv")open(`<h2 id="dlgT">True Value appraisal</h2><p>An appraisal estimates the value of a car you own. No appraisal has been requested or completed. This is separate from buying a new car.</p><p class="demo">Sample content.</p>`);
  else if(d.note){const n=DATA.notes.find(x=>x.id==d.note);n.u=0;renderNotes();go(n.go)}
  else if(t.id==="markAll"){DATA.notes.forEach(n=>n.u=0);renderNotes();$("#notifMenu").classList.add("open")}
  else if(t.id==="bell"||t.closest("#bell")){const m=$("#notifMenu"),o=!m.classList.contains("open");closeMenus();m.classList.toggle("open",o);$("#bell").setAttribute("aria-expanded",o)}
  else if(t.id==="prof"){const m=$("#profMenu"),o=!m.classList.contains("open");closeMenus();m.classList.toggle("open",o);$("#prof").setAttribute("aria-expanded",o)}
  else if(["prefOpen","prefOpen2"].includes(t.id)){closeMenus();prefs()}
- else if(t.id==="moreBtn")open(`<h2 id="dlgT">More</h2><div class="grid">${[1,2,5,7].map(i=>`<button class="btn ghost" data-go="${DATA.pages[i][0]}">${DATA.pages[i][1]}</button>`).join("")}<button class="btn ghost" id="prefOpen2">Communication preferences</button><button class="btn ghost" id="bell">Notifications</button></div>`);
+ else if(t.id==="moreBtn")open(`<h2 id="dlgT">More</h2><div class="grid">${[2,6].map(i=>`<button class="btn ghost" data-go="${DATA.pages[i][0]}">${DATA.pages[i][1]}</button>`).join("")}<button class="btn ghost" id="prefOpen2">Communication preferences</button><button class="btn ghost" id="bell">Notifications</button></div>`);
  else if(t.id==="cartView"){
   const items=[...S.sel].map(id=>DATA.products.find(p=>p.id===id));
   open(`<h2 id="dlgT">Your selection</h2>${items.length?items.map(p=>`<p>${p.name} · ${inr(p.price)}</p>`).join("")+`<p><b>Total: ${inr(items.reduce((s,p)=>s+p.price,0))}</b></p><button class="btn" onclick="toast('Simulated: no order placed');dlg.close()">Request quote</button>`:"<p>Nothing selected yet. Add items from the accessories list.</p>"}<p class="demo">Simulated cart. No order is placed.</p>`)}
  else if(t.id==="redeemOpen")redeem();
- else if(t.id==="hhBtn"){const r=$("#hhR").checked,p=$("#hhP").checked;
-  $("#hhOut").textContent=r&&p?"Household suggestion (sample): consider a True Value appraisal for the second car while exploring Rahul's upgrade options.":"Household suggestions stay off until both people allow them. Each profile continues to see only its own recommendations."}
 });
 function redeem(){
  open(`<h2 id="dlgT">Redeem points</h2><p>Balance: <b>${S.pts.toLocaleString("en-IN")}</b> points</p>
@@ -439,17 +415,13 @@ $("#svcCards").innerHTML=DATA.services.map(s=>`<div class="card"><h3>${s[0]}</h3
 renderProducts();renderOffers();renderCars();renderNotes();
 /* Mock auth: demo credentials only. Replace with real SSO/identity service later. */
 const USERS={
- "rahul.sharma":{password:"Drive@2026",customerId:"CUST001",email:"rahul.sharma@demo.com",persona:"Rahul"},
- "priya.sharma":{password:"Drive@2026",customerId:"CUST002",email:"priya.sharma@demo.com",persona:"Priya"}
+ "rahul.sharma":{password:"Drive@2026",customerId:"MSCUST-2001",email:"rahul.sharma@demoemail.com",persona:"Rahul"}
 };
-/* What each persona sees. Priya gets her own journey and does not see Rahul's vehicle, service or loyalty data. */
+/* Persona shown after sign-in */
 const PERSONAS={
- Rahul:{full:"Rahul Sharma",sub:"Pune · Gold loyalty · Sample profile",initials:"RS",hello:"Good morning, Rahul. Your next journey starts here.",landing:"home"},
- Priya:{full:"Priya Sharma",sub:"Pune · Household member · Sample profile",initials:"PS",hello:"Good morning, Priya. Let's plan what's next for your family.",landing:"household"}
+ Rahul:{full:"Rahul Sharma",sub:"Gurugram · Gold loyalty · Sample profile",initials:"RS",hello:"Good morning, Rahul. Your next journey starts here.",landing:"home"}
 };
-const NOTES_BY={Rahul:DATA.notes,Priya:[
- {id:11,t:"MSDS information",x:"Enrolment details for your daughter.",go:"household",u:1},
- {id:12,t:"True Value appraisal",x:"Explore appraising a second car.",go:"household",u:1}]};
+const NOTES_BY={Rahul:DATA.notes};
 const KEYS=["customerId","email","persona","loginStatus"];
 /* localStorage can be blocked (private mode); never let it break the page */
 const store={set(k,v){try{localStorage.setItem(k,v)}catch(e){}},get(k){try{return localStorage.getItem(k)}catch(e){return null}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
@@ -478,7 +450,6 @@ function applyPersona(user){
 function showApp(user){document.body.classList.remove("out");go(PERSONAS[user.persona].landing)}
 function fillDemo(i){const id=Object.keys(USERS)[i];$("#uid").value=id;$("#pw").value=USERS[id].password;$("#pw").focus()}
 $("#fill").onclick=()=>fillDemo(0);
-$("#fillP").onclick=()=>fillDemo(1);
 $("#lf").addEventListener("submit",e=>{e.preventDefault();
  const user=USERS[$("#uid").value.trim().toLowerCase()];
  if(user&&user.password===$("#pw").value){
@@ -498,6 +469,7 @@ $("#today").textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",da
  if(store.get("loginStatus")==="logged-in"){
   const u=Object.values(USERS).find(x=>x.customerId===store.get("customerId")&&x.persona===store.get("persona"));
   if(u&&applyPersona(u)){dlPush({user:userState(u)});showApp(u);return} /* restore state, then page tracking via go() */
+  KEYS.forEach(k=>store.del(k)); /* stale session from an older customer ID: clear it */
  }
  go("home");
 })();
